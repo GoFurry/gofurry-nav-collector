@@ -1,0 +1,49 @@
+cluster_id : 1
+
+# 服务器
+server:
+  app_name: "GF-Nav-Collector"
+  app_version: "v1.0.0"
+  mode: "debug"
+  memory_limit: 1
+
+# 数据库
+data_base:
+  db_name: "gfn"
+  db_username: "postgres"
+  db_password: "123456"
+  db_host: "192.168.153.121"
+  db_port: "5432"
+
+# redis
+redis:
+  redis_addr: "192.168.153.121:6379"
+  redis_password: "123456"
+
+# 日志
+log:
+  log_rotation_count: 10 # 日志保存个数
+  log_path: "/var/log/gofurry-cloud/log" # 日志保存路径
+  log_level: "debug" # 日志保存级别
+  log_choke_length: 1000 # 日志流长度
+
+# 采集器
+collector:
+  proxy: "http://127.0.0.1:7897" # 代理服务器地址
+  ping:
+    ping_thread: 10 # 默认 10 个线程同时执行 ping
+    ping_interval: 60 # 默认 300 秒执行 ping
+    ping_key: "ping:sites"
+    result_key: "ping:result"
+    log_count: "5000"
+  request:
+    request_thread: 10 # 默认 10 个线程同时执行 request
+    request_interval: 1 # 默认 6 小时请求一次
+    log_count: "1500"
+  dns:
+    dns_thread: 10
+    query_thread: 10
+    dns_interval: 24
+    resolver: "8.8.8.8:53"
+    geolite2_path: "./data/"
+    log_count: "500"
