@@ -144,7 +144,8 @@ func getRequestResult(site models.GfnCollectorDomain) func() {
 		}
 
 		// 记录存redis
-		cs.SetNX("request:"+siteName, string(jsonResult), -1)
+		cs.SetNX("request:"+siteName, string(jsonResult), -1) // 创建记录
+		cs.Set("request:"+siteName, string(jsonResult))       // 更新记录
 
 		// 存数据库
 		err := dao.GetHTTPDao().Add(&httpSaveRecord)
@@ -187,7 +188,7 @@ func performRequest(site models.GfnCollectorDomain) (res models.HTTPModel) {
 	redirects := []string{}
 	client := &http.Client{
 		Transport: transport,
-		Timeout:   10 * time.Second,
+		Timeout:   25 * time.Second,
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
 			redirects = append(redirects, req.URL.String())
 			return nil
